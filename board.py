@@ -11,7 +11,7 @@ import itertools
 
 ''' This function prints the board, at first I tried imitating the one in the project lab video like this: x = [['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']]
 but I kept getting string-related errors so I opted for this instead: x = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]'''
-# For this same reason I use "1" and "2" as markers instead of "x" and "o"
+# For this same reason I used "1" and "2" as markers instead of "x" and "o"
 def game_board(print_board, player=0, row=0, column=0, active=False):
 
 	# My "try and except" reference: https://pythonbasics.org/try-except/. I learned this because I read that it helps with error handling
@@ -37,11 +37,11 @@ while start:
 	total_players = 2
 	match = [[0 for i in range(board_grid)] for i in range(board_grid)]
 	players = list(range(1,total_players+1))
-	ongoing = False
+	end_game = False
 	match, _ = game_board(match, active=True)
 	player_cycle = itertools.cycle(players)
 
-	while not ongoing: # This section cycles through players
+	while not end_game: # This section cycles through players
 		player_turn = next(player_cycle)
 		print(f"Player {player_turn}, make your move.")
 		next_turn = False
@@ -66,3 +66,57 @@ while start:
 			print(f"Player {player_turn} added mark at the location {select_column, select_row}")
 			print()
 			match, next_turn = game_board(match, player_turn, select_row, select_column) # This line loops player input on the board
+
+		if fin(match): # This block ends the game if there is a winner
+			end_game = True
+			start = False
+
+
+# This function checks to see if anyone has won the match
+def fin(active_match):
+	# This nested function helps me take less space and it analyzes each value to determine if there is a winner
+	def search(l):
+		if l.count(l[0]) == len(l) and l[0] != 0:
+			return True
+		else:
+			return False
+
+	# This is the row win finder
+	for row in active_match:
+		if search(row):
+			print(f"Player {row[0]} wins. Game Over!")
+			return True
+
+	# This is the diagonal in the direction "/" finder
+	diagonal = []
+	for column, row in enumerate(reversed(range(len(active_match)))):
+		diagonal.append(active_match[row][column])
+	if search(diagonal):
+		print(f"Player {diagonal[0]} wins. Game Over!")
+		return True
+
+	# This is the diagonal in the direction "\" finder
+	diagonal = []
+	for ix in range(len(active_match)):
+		diagonal.append(active_match[ix][ix])
+	if search(diagonal):
+		print(f"Player {diagonal[0]} wins. Game Over!")
+		return True
+
+	# This is the column win finder
+	for column in range(len(active_match)):
+		vertical = []
+		for row in active_match:
+			vertical.append(row[column])
+		if search(vertical):
+			print(f"Player {vertical[0]} wins. Game Over!")
+			return True
+
+	# This is the tie finder
+	for row in active_match:
+		for column in row:
+			if column == 0:
+				return False
+	print("Draw. Game Over!")
+
+	return False
