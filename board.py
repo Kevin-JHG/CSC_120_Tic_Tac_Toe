@@ -116,8 +116,8 @@ while start:
 			# This section just displays what column and row the player selected
 			print(f"Player {player_turn} added mark at the location {select_column, select_row}")
 			print()
-			match, next_turn = game_board(match, player_turn, select_row, select_column) # This line loops player input on the board
+			match, next_turn = game_board(match, player_turn, select_row, select_column)  # This line loops player input on the board
 
-		if final(match): # This block ends the game if there is a winner
+		if final(match):  # This block ends the game if there is a winner
 			end_game = True
 			start = False
