@@ -4,7 +4,7 @@ References for how I learned about itertools:
 https://docs.python.org/3/library/itertools.html
 https://www.geeksforgeeks.org/python-itertools/ '''
 import random
-''' I used the random module to address an issue I saw that was not mentioned in the lab. You can find its usage I gave it in lines 106 and 114. The problem is that 
+''' I used the random module to address an issue I saw that was not mentioned in the lab. You can find its usage I gave it in lines 105 and 113. The problem is that 
 the user might enter a non numeric value such as a letter or a symbol and it would cause an error, but the lab does not mention we have to fix this so I did it 
 anyways. So my solution was to generate a random number for the player in the case they did not enter a number in the given range '''
 import itertools
@@ -71,11 +71,10 @@ def game_board(print_board, player=0, row=0, column=0, active=False):
 			print(f"**** Board {[select_column], [select_row]} has already been selected. Please place somewhere else on the board ****")
 			print("**** Invalid choice. Please mark again! ****")
 			return print_board, False
-		print("   0  1  2")
 		if not active:
 			print_board[row][column] = player
-		for count, row in enumerate(print_board):
-			print(count, row)
+		for row in print_board:
+			print(row)
 		return print_board, True
 	except IndexError: # Here is what I used "try and except" it for
 		print(f"**** Invalid row or column. Please select row/column between values 0 to 2 ****")
